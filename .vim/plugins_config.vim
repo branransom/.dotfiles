@@ -27,6 +27,9 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 set rtp+=/usr/local/opt/fzf
 
+" Show preview of file in fzf
+nnoremap <silent> <leader>o :call fzf#vim#files('', fzf#vim#with_preview('right'))<CR>
+
 """""""""""""""""""""""""""
 " ALE
 """""""""""""""""""""""""""
