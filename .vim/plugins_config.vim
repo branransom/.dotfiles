@@ -10,7 +10,7 @@ set laststatus=2
 """""""""""""""""""""""""""
 
 let g:NERDTreeWinPost = "left"
-let NERDTreeShowHidden = 0
+let NERDTreeShowHidden = 1
 let g:NERDTreeWinSize = 35
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1

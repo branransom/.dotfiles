@@ -22,3 +22,9 @@
 [submodule ".vim/pack/plugins/start/vim-fugitive"]
 	path = .vim/pack/plugins/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/pack/plugins/start/auto-pairs"]
+	path = .vim/pack/plugins/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule ".vim/pack/plugins/start/vim-commentary"]
+	path = .vim/pack/plugins/start/vim-commentary
+	url = https://github.com/tpope/vim-commentary.git
