@@ -26,6 +26,9 @@ set t_vb=
 set tm=500
 set belloff=all
 
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
 """""""""""""""""""""""""
 " VIM User Interface
 """""""""""""""""""""""""
