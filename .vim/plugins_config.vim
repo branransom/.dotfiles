@@ -48,13 +48,6 @@ command! -bang -nargs=* Find
         \ --color "always" '.shellescape(<q-args>),
         \1, fzf#vim#with_preview(), <bang>0)
 
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -62,9 +55,6 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 """""""""""""""""""""""""""
 " ALE
@@ -101,3 +91,8 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+""""""""""""""""""""""
+" Vim Plain Colors
+""""""""""""""""""""""
+
+colorscheme plain
