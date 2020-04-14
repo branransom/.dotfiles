@@ -1,5 +1,5 @@
-# Enables use of a bare git repository to store config files
-alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+# Source aliases
+source ~/.aliases
 
 # This loop will source each tool in the ~/.tools directory, so that they are always available from the command line
 for tool in ~/.tools/*; do
