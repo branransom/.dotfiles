@@ -1,0 +1,16 @@
+[user]
+	name = branransom
+	email = branransom@gmail.com
+[credential]
+	helper = osxkeychain
+[alias]
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[color]
+	ui = true
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
+[core]
+	pager = less -F -X

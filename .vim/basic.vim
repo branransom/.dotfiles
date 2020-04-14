@@ -30,6 +30,20 @@ set belloff=all
 set updatetime=300
 
 """""""""""""""""""""""""
+" Buffers and Windows
+"""""""""""""""""""""""""
+
+" Navigate between splits easily
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Open new split planes to the right and below
+set splitbelow
+set splitright
+
+"""""""""""""""""""""""""
 " VIM User Interface
 """""""""""""""""""""""""
 
@@ -72,6 +86,9 @@ syntax enable
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
+
+" Remove built-in vim status ( -- INSERT -- etc )
+set noshowmode
 
 """""""""""""""""""""""""""""""""""""""""""""
 " Files, backups, and undo
