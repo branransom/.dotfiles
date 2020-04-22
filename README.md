@@ -13,6 +13,12 @@ To install my dotfiles on a new system, follow these steps:
 
 ## Remove a Submodule
 
+To fetch and checkout all submodules
+
+```
+dotfiles submodule update --init --recursive
+```
+
 To update all submodules, run this command
 
 ```
