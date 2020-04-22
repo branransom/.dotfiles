@@ -40,3 +40,9 @@
 [submodule ".vim/pack/plugins/start/vim-colors-plain"]
 	path = .vim/pack/plugins/start/vim-colors-plain
 	url = https://github.com/NerdyPepper/vim-colors-plain.git
+[submodule "gruvbox"]
+	path = gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/pack/plugins/start/gruvbox"]
+	path = .vim/pack/plugins/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git

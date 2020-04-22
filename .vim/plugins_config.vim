@@ -95,4 +95,4 @@ endfunction
 " Vim Plain Colors
 """"""""""""""""""""""
 
-colorscheme plain
+colorscheme gruvbox
