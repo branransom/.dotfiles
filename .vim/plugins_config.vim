@@ -78,6 +78,54 @@ let g:ale_javascript_prettier_use_local_config = 1
 " CoC
 """"""""""""""""""""""
 
+" Install plugins globally
+let g:coc_global_extensions = [
+  \ 'coc-tsserver'
+  \ ]
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
+
+nnoremap <silent> K :call CocAction('doHover')<CR>
+
+" Show the diagnostic if it exists - otherwise, show the documentation
+" I found this here: https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
+function! ShowDocIfNoDiagnostic(timer_id)
+  if (coc#util#has_float() == 0)
+    silent call CocActionAsync('doHover')
+  endif
+endfunction
+
+function! s:show_hover_doc()
+  call timer_start(500, 'ShowDocIfNoDiagnostic')
+endfunction
+
+autocmd CursorHoldI * :call <SID>show_hover_doc()
+autocmd CursorHold * :call <SID>show_hover_doc()
+
+" Goto actions
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gr <Plug>(coc-references)
+
+" Navigate between errors
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Shows a list of diagnostics for the entire workspace
+nnoremap <silent> <leader>d :<C-u>CocList diagnostics<cr>
+
+" Perform automatic fix, such as importing
+nmap <leader>do <Plug>(coc-codeaction)
+
+" Rename a symbol
+nmap <leader>rn <Plug>(coc-rename)
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
