@@ -4,9 +4,6 @@
 [submodule ".vim/pack/plugins/start/lightline"]
 	path = .vim/pack/plugins/start/lightline
 	url = https://github.com/itchyny/lightline.vim.git
-[submodule ".vim/pack/plugins/start/ale"]
-	path = .vim/pack/plugins/start/ale
-	url = https://github.com/dense-analysis/ale.git
 [submodule ".vim/pack/plugins/start/vim-surround"]
 	path = .vim/pack/plugins/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
@@ -46,3 +43,6 @@
 [submodule ".vim/pack/plugins/start/gruvbox"]
 	path = .vim/pack/plugins/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule ".zsh/zsh-autosuggestions"]
+	path = .zsh/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
