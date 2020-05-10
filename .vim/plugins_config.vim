@@ -56,24 +56,6 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-"""""""""""""""""""""""""""
-" ALE
-"""""""""""""""""""""""""""
-
-" Enable prettier for JS
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'css': ['prettier'],
-\}
-
-" Only run specified linters
-let g:ale_linters_explicit = 1
-
-" Run prettier on save
-let g:ale_fix_on_save = 1
-
-let g:ale_javascript_prettier_use_local_config = 1
-
 """"""""""""""""""""""
 " CoC
 """"""""""""""""""""""

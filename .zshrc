@@ -32,3 +32,5 @@ export NVM_DIR="/Users/brandonransom/.nvm"
 autoload -U promptinit; promptinit
 prompt pure
 
+# Command suggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
