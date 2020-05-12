@@ -26,12 +26,11 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NVM
-export NVM_DIR="/Users/brandonransom/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 # Prompt styling
-autoload -U promptinit; promptinit
-prompt pure
+eval "$(starship init zsh)"
 
 # Command suggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
