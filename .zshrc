@@ -1,8 +1,9 @@
 # Source aliases
 source ~/.aliases
 
-# This loop will source each tool in the ~/.tools directory, so that they are always available from the command line
-for tool in ~/.tools/*; do
+# This loop will source each tool in the ~/.tools directory and its subdirectories, so that they are always available from the command line
+# I am only sourcing *.sh files, since there are README files, make files, etc. includes with some of the tools
+for tool in ~/.tools/**/*.sh; do
     source "$tool"
 done
 

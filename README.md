@@ -11,21 +11,19 @@ To install my dotfiles on a new system, follow these steps:
 5. Avoid showing untracked files: `dotfiles config --local status.showUntrackedFiles no`
 6. Fetch all submodules (this is required for `vim` plugins, since the plugins are separately managed repos): `dotfiles submodule update --init --recursive`
 
-## Remove a Submodule
-
-To fetch and checkout all submodules
+## Fetch and checkout all submodules
 
 ```
 dotfiles submodule update --init --recursive
 ```
 
-To update all submodules, run this command
+## Update all submodules
 
 ```
 dotfiles submodule update --remote
 ```
 
-To remove a submodule, run these commands
+## Remove a submodule
 
 ```
 dotfiles submodule deinit <path_to_submodule>
