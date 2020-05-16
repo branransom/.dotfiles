@@ -11,3 +11,6 @@ alias localip="ipconfig getifaddr en0"
 
 # Prompt user if moving file to a location where a file of that name already exists
 alias mv="mv -i"
+
+# Run kubernetes commands with "k <command>"
+alias k="kubectl"
