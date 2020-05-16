@@ -6,6 +6,13 @@
 set laststatus=2
 
 """""""""""""""""""""""""""
+" Polyglot
+"""""""""""""""""""""""""""
+
+" Always show the status line
+let g:polyglot_disabled = ['graphql']
+
+"""""""""""""""""""""""""""
 " NERDTree
 """""""""""""""""""""""""""
 
