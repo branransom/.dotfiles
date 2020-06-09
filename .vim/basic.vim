@@ -84,6 +84,9 @@ set showmatch
 " Enable syntax highlighting
 syntax enable
 
+" Transparent background... for some reason, this has to be after syntax enable
+highlight Normal ctermbg=NONE
+
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
@@ -146,3 +149,4 @@ endif
 
 " Pressing ,ss will toggle spell checking
 map <leader>ss :setlocal spell!<cr>
+

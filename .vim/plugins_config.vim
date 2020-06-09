@@ -67,6 +67,9 @@ augroup end
 " CoC
 """"""""""""""""""""""
 
+" Make sure CoC uses compiled code
+" let g:coc_force_debug = 1
+
 " Install plugins globally
 let g:coc_global_extensions = [
   \ 'coc-tsserver'
