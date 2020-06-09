@@ -9,23 +9,3 @@ To install my dotfiles on a new system, follow these steps:
 3. Clone the repo: `git clone --bare git@github.com:branransom/dotfiles.git $HOME/.dotfiles`
 4. Checkout the repo contents in `$HOME`: `dotfiles checkout`
 5. Avoid showing untracked files: `dotfiles config --local status.showUntrackedFiles no`
-6. Fetch all submodules (this is required for `vim` plugins, since the plugins are separately managed repos): `dotfiles submodule update --init --recursive`
-
-## Fetch and checkout all submodules
-
-```
-dotfiles submodule update --init --recursive
-```
-
-## Update all submodules
-
-```
-dotfiles submodule update --remote
-```
-
-## Remove a submodule
-
-```
-dotfiles submodule deinit <path_to_submodule>
-dotfiles rm <path_to_submodule>
-```
