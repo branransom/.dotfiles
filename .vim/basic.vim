@@ -12,10 +12,6 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-" With a map leader, it's possible to do extra key combos
-" like <leader>w saves the current file
-let mapleader = ","
-
 " Fast saving
 nmap <leader>w :w!<cr>
 
