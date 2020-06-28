@@ -28,6 +28,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+source $(brew --prefix nvm)/nvm.sh
 
 # Prompt styling
 eval "$(starship init zsh)"
