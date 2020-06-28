@@ -15,4 +15,5 @@ alias mv="mv -i"
 # Run kubernetes commands with "k <command>"
 alias k="kubectl"
 
-source ~/.aliases_local
+LOCAL_ALIASES=~/.aliases_local
+[ -f "$LOCAL_ALIASES" ] && source "$LOCAL_ALIASES"
