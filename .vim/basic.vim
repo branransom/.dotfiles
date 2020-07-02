@@ -25,6 +25,9 @@ set belloff=all
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
 
+" Live substitution when using :substitute
+set inccommand=nosplit
+
 """""""""""""""""""""""""
 " Buffers and Windows
 """""""""""""""""""""""""
