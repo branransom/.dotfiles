@@ -11,6 +11,7 @@ brew "python"
 brew "ripgrep"
 brew "tmux"
 brew "vim"
+brew "yq"
 
 tap "mongodb/brew"
 brew "mongodb-community"
