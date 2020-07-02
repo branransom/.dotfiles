@@ -78,6 +78,9 @@ endif
 
 nnoremap <silent> K :call CocAction('doHover')<CR>
 
+" Sometimes seeing residual popups in CoC... this will clear them
+nnoremap <silent> <C-C> :call coc#util#float_hide()<CR>
+
 " Show the diagnostic if it exists - otherwise, show the documentation
 " I found this here: https://thoughtbot.com/blog/modern-typescript-and-react-development-in-vim
 function! ShowDocIfNoDiagnostic(timer_id)
