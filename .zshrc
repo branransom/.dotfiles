@@ -30,8 +30,16 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 source $(brew --prefix nvm)/nvm.sh
 
+# PyEnv
+export PYENV_ROOT=/usr/local/opt/pyenv  
+eval "$(pyenv init -)"
+
 # Prompt styling
 eval "$(starship init zsh)"
 
 # Command suggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Dad jokes lol
+curl -s https://icanhazdadjoke.com/ | cowsay
+
