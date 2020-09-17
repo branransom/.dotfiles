@@ -21,7 +21,7 @@ bindkey '^P' up-history
 bindkey '^N' down-history
 
 # Fuzzy finder
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!{node_modules,.git}"'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 

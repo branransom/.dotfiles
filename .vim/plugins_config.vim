@@ -29,10 +29,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 set rtp+=/usr/local/opt/fzf
 
-" Show preview of file in fzf
+" Fuzzy search files by name with preview window
 nnoremap <silent> <leader>o :call fzf#vim#files('', fzf#vim#with_preview('right'))<CR>
 
 " :Find fuzzy searches for text in project files
+nnoremap <silent> <leader>f :Find<CR>
 command! -bang -nargs=* Find 
         \ call fzf#vim#grep(
         \ 'rg
