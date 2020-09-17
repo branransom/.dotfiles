@@ -1,11 +1,13 @@
-[user]
-	name = Brandon Ransom
-	email = Brandon.Ransom@LibertyMutual.com
+[includeIf "gitdir:~/"]
+  path = .gitconfig-personal
+[includeIf "gitdir:~/dev/workspace/lm/"]
+  path = .gitconfig-work
 [credential]
 	helper = osxkeychain
 [alias]
-    lol = log --graph --decorate --pretty=oneline --abbrev-commit
-    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    lola = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all
+    lols = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat
+    s = status -s
 [color]
 	ui = true
     branch = auto

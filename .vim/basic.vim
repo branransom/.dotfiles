@@ -122,6 +122,10 @@ set copyindent " copy indent from the previous line
 set si " Smart indent
 set wrap " Wrap lines
 
+" Move selected line up or down, moving adjacent lines appropriately
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
 """""""""""""""""""""""""""""""""""""""""""""
 " Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""
