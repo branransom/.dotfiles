@@ -1,7 +1,6 @@
 set runtimepath+=~/.vim
 
 call plug#begin('~/.vim/plugged')
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'jiangmiao/auto-pairs'
