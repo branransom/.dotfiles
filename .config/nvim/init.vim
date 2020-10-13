@@ -16,7 +16,6 @@ call plug#end()
 source ~/.config/nvim/plugins_config.vim
 
 lua require'plugins'
-lua require'lsp'
 
 " Live substitution when using :substitute
 set inccommand=nosplit
