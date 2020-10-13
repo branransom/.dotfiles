@@ -13,6 +13,12 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
 """""""""""""""""""""""""""
+" Diagnostic
+"""""""""""""""""""""""""""
+
+let g:diagnostic_enable_virtual_text = 1
+
+"""""""""""""""""""""""""""
 " Neoformat
 """""""""""""""""""""""""""
 

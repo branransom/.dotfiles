@@ -10,6 +10,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'sbdchd/neoformat'
   Plug 'nvim-lua/completion-nvim'
+  Plug 'nvim-lua/diagnostic-nvim'
 call plug#end()
 
 source ~/.config/nvim/plugins_config.vim
