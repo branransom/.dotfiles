@@ -46,8 +46,14 @@ set splitright
 " Always show current position
 set ruler
 
-" Show line numbers
+" Show relative line numbers
+set relativenumber
+
+" Show line number that we're on
 set number
+
+" Make it so there are always ten lines below my cursor
+set scrolloff=10
 
 " Height of the command bar
 set cmdheight=2

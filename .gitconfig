@@ -2,18 +2,31 @@
   path = .gitconfig-personal
 [includeIf "gitdir:~/dev/workspace/lm/"]
   path = .gitconfig-work
+
 [credential]
 	helper = osxkeychain
+
 [alias]
-    lola = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all
-    lols = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat
-    s = status -s
+  lola = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all
+  lols = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat
+  s = status -s
+
+[pull]
+  rebase = true
+
+[rebase]
+  autoStash = true
+
+[push]
+  default = current
+
 [color]
 	ui = true
     branch = auto
     diff = auto
     interactive = auto
     status = auto
+
 [core]
 	pager = less -F -X
 	editor = vim
