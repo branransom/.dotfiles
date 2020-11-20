@@ -41,5 +41,5 @@ eval "$(starship init zsh)"
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Dad jokes lol
-curl -s https://icanhazdadjoke.com/ | cowsay
+# curl -s https://icanhazdadjoke.com/ | cowsay
 

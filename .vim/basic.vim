@@ -136,6 +136,12 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 " Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""
 
+" greatest remaps ever // ThePrimeagen
+vnoremap <leader>p "_dP
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y gg"+yG
+
 " Delete trailing white-space on save
 fun! CleanExtraSpaces()
     let save_cursor = getpos(".")
