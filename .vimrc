@@ -13,6 +13,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'mattn/emmet-vim'
+  Plug 'godlygeek/tabular'
+  Plug 'plasticboy/vim-markdown'
 call plug#end()
 
 " With a map leader, it's possible to do extra key combos

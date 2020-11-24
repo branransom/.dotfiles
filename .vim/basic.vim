@@ -128,6 +128,10 @@ set copyindent " copy indent from the previous line
 set si " Smart indent
 set wrap " Wrap lines
 
+" Prevent vim from inserting new lines into text automatically
+set textwidth=0
+set wrapmargin=0
+
 " Move selected line up or down, moving adjacent lines appropriately
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
