@@ -1,3 +1,13 @@
+export ZSH="$HOME/.oh-my-zsh"
+export NVM_DIR="$HOME/.nvm"
+
+# nvm was taking forever to load... every time I opened a new shell.
+export NVM_LAZY_LOAD=true
+
+plugins=(zsh-nvm)
+
+source $ZSH/oh-my-zsh.sh
+
 # Source aliases
 source ~/.aliases
 
@@ -25,11 +35,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!{node_modules,
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-source $(brew --prefix nvm)/nvm.sh
-
 # PyEnv
 export PYENV_ROOT=/usr/local/opt/pyenv  
 eval "$(pyenv init -)"
@@ -41,5 +46,6 @@ eval "$(starship init zsh)"
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Dad jokes lol
-# curl -s https://icanhazdadjoke.com/ | cowsay
+curl -s https://icanhazdadjoke.com/ | cowsay
+
 
