@@ -25,6 +25,9 @@ set belloff=all
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
 
+" Enable mouse
+set mouse=a
+
 """""""""""""""""""""""""
 " Buffers and Windows
 """""""""""""""""""""""""
