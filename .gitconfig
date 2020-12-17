@@ -1,15 +1,24 @@
 [includeIf "gitdir:~/"]
   path = .gitconfig-personal
-[includeIf "gitdir:~/dev/workspace/lm/"]
+[includeIf "gitdir:~/dev/lm/"]
   path = .gitconfig-work
 
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 
 [alias]
   lola = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all
   lols = log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat
   s = status -s
+
+[difftool]
+  prompt = true
+
+[diff]
+  tool = nvimdiff
+
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
 [pull]
   rebase = true
@@ -21,12 +30,12 @@
   default = current
 
 [color]
-	ui = true
-    branch = auto
-    diff = auto
-    interactive = auto
-    status = auto
+  ui = true
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
 
 [core]
-	pager = less -F -X
-	editor = vim
+  pager = less -F -X
+  editor = vim

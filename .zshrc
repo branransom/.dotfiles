@@ -1,14 +1,14 @@
 export ZSH="$HOME/.oh-my-zsh"
 export NVM_DIR="$HOME/.nvm"
 
-# nvm was taking forever to load... every time I opened a new shell.
+# nvm was taking forever to load every time I opened a new shell
 export NVM_LAZY_LOAD=true
 
-plugins=(zsh-nvm)
+plugins=(zsh-nvm zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
-# Source aliases
+# Custom aliases
 source ~/.aliases
 
 # This loop will source each tool in the ~/.tools directory and its subdirectories, so that they are always available from the command line
@@ -41,11 +41,4 @@ eval "$(pyenv init -)"
 
 # Prompt styling
 eval "$(starship init zsh)"
-
-# Command suggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Dad jokes lol
-curl -s https://icanhazdadjoke.com/ | cowsay
-
 
