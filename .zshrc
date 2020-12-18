@@ -4,6 +4,9 @@ export NVM_DIR="$HOME/.nvm"
 # nvm was taking forever to load every time I opened a new shell
 export NVM_LAZY_LOAD=true
 
+# darker color for autosuggestions
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+
 plugins=(zsh-nvm zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
