@@ -4,6 +4,7 @@ set packpath+=~/.vim
 source ~/.vimrc
 
 call plug#begin('~/.config/nvim/plugged')
+  Plug 'pangloss/vim-javascript'
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -96,7 +97,7 @@ nmap <silent> <TAB> <Plug>(coc-range-select)
 xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Find symbol of current document.
-nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
+nnoremap <silent> <leader>oc  :<C-u>CocList outline<cr>
 
 " Search workspace symbols.
 nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
