@@ -1,12 +1,6 @@
 [submodule "gruvbox"]
 	path = gruvbox
 	url = https://github.com/morhetz/gruvbox.git
-[submodule ".zsh/zsh-autosuggestions"]
-	path = .zsh/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions
 [submodule ".tools/z"]
 	path = .tools/z
 	url = https://github.com/rupa/z.git
-[submodule ".vim/pack/plugins/start/vimwiki"]
-	path = .vim/pack/plugins/start/vimwiki
-	url = https://github.com/vimwiki/vimwiki.git
