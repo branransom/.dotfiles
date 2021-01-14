@@ -7,7 +7,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'itchyny/lightline.vim'
   Plug 'morhetz/gruvbox'
   Plug 'preservim/nerdtree'
-  Plug 'tpope/vim-commentary'
+  Plug 'preservim/nerdcommenter'
   Plug 'tpope/vim-fugitive'
   Plug 'airblade/vim-gitgutter'
   Plug 'tpope/vim-surround'

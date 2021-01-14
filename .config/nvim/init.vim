@@ -3,14 +3,6 @@ set packpath+=~/.vim
 
 source ~/.vimrc
 
-call plug#begin('~/.config/nvim/plugged')
-  Plug 'pangloss/vim-javascript'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'peitalin/vim-jsx-typescript'
-  Plug 'maxmellon/vim-jsx-pretty'
-  Plug 'pangloss/vim-javascript'
-call plug#end()
-
 " Neovim 0.5 improves native LSP
 if has('nvim-0.5')
   call plug#begin('~/.config/nvim/plugged')
