@@ -8,6 +8,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'maxmellon/vim-jsx-pretty'
 call plug#end()
 
 " Neovim 0.5 improves native LSP
