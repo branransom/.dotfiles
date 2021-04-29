@@ -26,6 +26,8 @@ cask "font-iosevka"
 tap "adoptopenjdk/openjdk"
 cask "homebrew/cask-versions/adoptopenjdk8"
 
+cask "menumeters"
+
 cask "docker"
 cask "firefox"
 cask "google-chrome"
