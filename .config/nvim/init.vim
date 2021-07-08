@@ -13,6 +13,7 @@ if has('nvim-0.5')
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'dense-analysis/ale'
   call plug#end()
 
   source ~/.config/nvim/plugins_config.vim

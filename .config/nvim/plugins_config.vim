@@ -18,8 +18,8 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -36,6 +36,13 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_command [[augroup Format]]
+    vim.api.nvim_command [[autocmd! * <buffer>]]
+    vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    vim.api.nvim_command [[augroup END]]
+  end
+
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -49,6 +56,58 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
+
+nvim_lsp.tsserver.setup {
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end
+}
+
+local filetypes = {
+    typescript = "eslint",
+    typescriptreact = "eslint",
+}
+
+local linters = {
+    eslint = {
+        sourceName = "eslint",
+        command = "eslint",
+        rootPatterns = {".eslintrc.js", "package.json"},
+        debounce = 100,
+        args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
+        parseJson = {
+            errorsRoot = "[0].messages",
+            line = "line",
+            column = "column",
+            endLine = "endLine",
+            endColumn = "endColumn",
+            message = "${message} [${ruleId}]",
+            security = "severity"
+        },
+        securities = {[2] = "error", [1] = "warning"}
+    }
+}
+
+local formatters = {
+    prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}}
+}
+
+local formatFiletypes = {
+    typescript = "prettier",
+    typescriptreact = "prettier"
+}
+
+nvim_lsp.diagnosticls.setup {
+    on_attach = on_attach,
+    filetypes = vim.tbl_keys(filetypes),
+    init_options = {
+        filetypes = filetypes,
+        linters = linters,
+        formatters = formatters,
+        formatFiletypes = formatFiletypes
+    }
+}
 EOF
 
 """""""""""""""""""""""""""
@@ -119,3 +178,30 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+"""""""""""""""""""""""""""
+" Ale
+"""""""""""""""""""""""""""
+
+let g:ale_fix_on_save = 1
+let g:ale_javascript_prettier_use_local_config = 1
+
+let g:ale_fixers = {
+      \   '*'         : ['remove_trailing_lines', 'trim_whitespace'],
+      \   'markdown'  : ['prettier'],
+      \   'javascript': ['eslint'],
+      \   'typescript': ['prettier'],
+      \   'css'       : ['prettier'],
+      \   'json'      : ['prettier'],
+      \   'scss'      : ['prettier'],
+      \   'less'      : ['prettier'],
+      \   'yaml'      : ['prettier'],
+      \   'graphql'   : ['prettier'],
+      \   'html'      : ['prettier'],
+      \   'reason'    : ['refmt'],
+      \   'python'    : ['black'],
+      \   'sh'        : ['shfmt'],
+      \   'bash'      : ['shfmt'],
+      \   'rust'      : ['rustfmt'],
+      \   'go'        : ['gofmt'],
+      \}
