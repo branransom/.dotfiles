@@ -10,10 +10,13 @@ if has('nvim-0.5')
     Plug 'hrsh7th/nvim-compe'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'nvim-treesitter/playground'
+    Plug 'glepnir/lspsaga.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-telescope/telescope.nvim'
-    Plug 'dense-analysis/ale'
+    Plug 'mhartington/formatter.nvim'
+    Plug 'RRethy/vim-illuminate'
+    Plug 'folke/which-key.nvim'
   call plug#end()
 
   source ~/.config/nvim/plugins_config.vim
