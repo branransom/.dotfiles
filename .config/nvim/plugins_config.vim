@@ -5,6 +5,29 @@
 lua << EOF
 local nvim_lsp = require('lspconfig')
 
+local format_async = function(err, _, result, _, bufnr)
+    if err ~= nil or result == nil then return end
+    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+        local view = vim.fn.winsaveview()
+        vim.lsp.util.apply_text_edits(result, bufnr)
+        vim.fn.winrestview(view)
+        if bufnr == vim.api.nvim_get_current_buf() then
+            vim.api.nvim_command("noautocmd :update")
+        end
+    end
+end
+
+vim.lsp.handlers["textDocument/formatting"] = format_async
+
+_G.lsp_organize_imports = function()
+    local params = {
+        command = "_typescript.organizeImports",
+        arguments = {vim.api.nvim_buf_get_name(0)},
+        title = ""
+    }
+    vim.lsp.buf.execute_command(params)
+end
+
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
@@ -70,95 +93,67 @@ nvim_lsp.tsserver.setup {
 
 local filetypes = {
     javascript = "eslint",
+    javascriptreact = "eslint",
     typescript = "eslint",
     typescriptreact = "eslint",
 }
 
 local linters = {
     eslint = {
-        sourceName = "eslint",
-        command = "eslint",
-        rootPatterns = {".eslintrc.js", "package.json"},
-        debounce = 100,
-        args = {"--stdin", "--stdin-filename", "%filepath", "--format", "json"},
-        parseJson = {
-            errorsRoot = "[0].messages",
-            line = "line",
-            column = "column",
-            endLine = "endLine",
-            endColumn = "endColumn",
-            message = "${message} [${ruleId}]",
-            security = "severity"
-        },
-        securities = {[2] = "error", [1] = "warning"}
-    }
+      command = 'eslint_d',
+      rootPatterns = { '.git' },
+      debounce = 100,
+      args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
+      sourceName = 'eslint_d',
+      parseJson = {
+        errorsRoot = '[0].messages',
+        line = 'line',
+        column = 'column',
+        endLine = 'endLine',
+        endColumn = 'endColumn',
+        message = '[eslint] ${message} [${ruleId}]',
+        security = 'severity'
+      },
+      securities = {
+        [2] = 'error',
+        [1] = 'warning'
+      }
+    },
 }
 
 local formatters = {
-    prettier = {command = "prettier", args = {"--stdin-filepath", "%filepath"}}
+    eslint_d = {
+      command = 'eslint_d',
+      args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
+      rootPatterns = { '.git' },
+    },
+    prettier = {
+      command = 'prettier',
+      args = { '--stdin-filepath', '%filename' }
+    }
 }
 
 local formatFiletypes = {
-    javascript = "prettier",
-    typescript = "prettier",
-    typescriptreact = "prettier"
+    css = 'prettier',
+    javascript = 'prettier',
+    javascriptreact = 'prettier',
+    json = 'prettier',
+    scss = 'prettier',
+    less = 'prettier',
+    typescript = 'prettier',
+    typescriptreact = 'prettier',
+    json = 'prettier',
+    markdown = 'prettier',
 }
 
 nvim_lsp.diagnosticls.setup {
   on_attach = on_attach,
   filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
   init_options = {
-    linters = {
-      eslint = {
-        command = 'eslint_d',
-        rootPatterns = { '.git' },
-        debounce = 100,
-        args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
-        sourceName = 'eslint_d',
-        parseJson = {
-          errorsRoot = '[0].messages',
-          line = 'line',
-          column = 'column',
-          endLine = 'endLine',
-          endColumn = 'endColumn',
-          message = '[eslint] ${message} [${ruleId}]',
-          security = 'severity'
-        },
-        securities = {
-          [2] = 'error',
-          [1] = 'warning'
-        }
-      },
-    },
-    filetypes = {
-      javascript = 'eslint',
-      javascriptreact = 'eslint',
-      typescript = 'eslint',
-      typescriptreact = 'eslint',
-    },
-    formatters = {
-      eslint_d = {
-        command = 'eslint_d',
-        args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
-        rootPatterns = { '.git' },
-      },
-      prettier = {
-        command = 'prettier',
-        args = { '--stdin-filepath', '%filename' }
-      }
-    },
-    formatFiletypes = {
-      css = 'prettier',
-      javascript = 'eslint_d',
-      javascriptreact = 'eslint_d',
-      json = 'prettier',
-      scss = 'prettier',
-      less = 'prettier',
-      typescript = 'eslint_d',
-      typescriptreact = 'eslint_d',
-      json = 'prettier',
-      markdown = 'prettier',
-    }
+    linters = linters,
+    filetypes = filetypes,
+    formatters = formatters,
+    formatFiletypes = formatFiletypes
   }
 }
 
