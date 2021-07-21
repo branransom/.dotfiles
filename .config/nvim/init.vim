@@ -20,8 +20,12 @@ if has('nvim-0.5')
     Plug 'sainnhe/gruvbox-material'
   call plug#end()
 
-  source ~/.config/nvim/plugins_config.vim
+  "source ~/.config/nvim/plugins_config.vim
 endif
+
+lua << EOF
+  require('plugins_config')
+EOF
 
 " Live substitution when using :substitute
 set inccommand=nosplit
