@@ -242,27 +242,10 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 " LSP Saga
 """""""""""""""""""""""""""
 
-" show hover doc
 nnoremap <silent>K :Lspsaga hover_doc<CR>
-inoremap <silent><C-k> :Lspsaga signature_help<CR>
-
 nnoremap <silent>gh :Lspsaga lsp_finder<CR>
-nnoremap <silent><C-j> :Lspsaga diagnostic_jump_next<CR>
-
-nnoremap <silent><leader>act :Lspsaga code_action<CR>
-vnoremap <silent><leader>act :<C-U>Lspsaga range_code_action<CR>
-
-"nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-"nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-"
-"nnoremap <silent>gr :Lspsaga rename<CR>
-"
-"nnoremap <silent> gd :Lspsaga preview_definition<CR>
-"
-"nnoremap <silent><leader>cd <cmd>lua
-"
-"nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-"nnoremap <silent><leader>cc <cmd>lua
-"
-"nnoremap <silent> [e :Lspsaga diagnostic_jump_next<CR>
-"nnoremap <silent> ]e :Lspsaga diagnostic_jump_prev<CR>
+nnoremap <silent>[e :Lspsaga diagnostic_jump_next<CR>
+nnoremap <silent>]e :Lspsaga diagnostic_jump_prev<CR>
+nnoremap <leader>act :Lspsaga code_action<CR>
+vnoremap <leader>act :<C-U>Lspsaga range_code_action<CR>
+nnoremap <leader>rn :Lspsaga rename<CR>
