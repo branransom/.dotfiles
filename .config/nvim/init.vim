@@ -17,6 +17,7 @@ if has('nvim-0.5')
     Plug 'mhartington/formatter.nvim'
     Plug 'RRethy/vim-illuminate'
     Plug 'folke/which-key.nvim'
+    Plug 'sainnhe/gruvbox-material'
   call plug#end()
 
   source ~/.config/nvim/plugins_config.vim

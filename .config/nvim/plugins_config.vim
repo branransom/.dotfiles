@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""
+""""""""""""""""""""""""""""
 " LSP
 """""""""""""""""""""""""""
 
@@ -257,3 +257,10 @@ nnoremap <silent>]e :Lspsaga diagnostic_jump_prev<CR>
 nnoremap <leader>act :Lspsaga code_action<CR>
 vnoremap <leader>act :<C-U>Lspsaga range_code_action<CR>
 nnoremap <leader>rn :Lspsaga rename<CR>
+
+"""""""""""""""""""""""""""
+" Gruvbox Material
+"""""""""""""""""""""""""""
+
+let g:gruvbox_material_background = 'soft'
+colorscheme gruvbox-material
