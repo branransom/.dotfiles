@@ -1,3 +1,4 @@
+local utils = require('utils')
 local compe = require('compe')
 
 -- Set completeopt to have a better completion experience
@@ -77,8 +78,8 @@ _G.confirm = function()
   end
 end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
---vim.api.nvim_set_keymap("i", "<CR>", "v:lua.confirm()", {expr = true})
+utils.map("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+utils.map("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+utils.map("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+utils.map("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+utils.map("i", "<CR>", "compe#confirm({ 'keys': '<CR>', 'select': v:true })", {expr = true})

@@ -7,7 +7,7 @@ local format_async = function(err, _, result, _, bufnr)
         vim.lsp.util.apply_text_edits(result, bufnr)
         vim.fn.winrestview(view)
         if bufnr == vim.api.nvim_get_current_buf() then
-            vim.api.nvim_command("noautocmd :update")
+            vim.cmd("noautocmd :update")
         end
     end
 end
@@ -54,17 +54,23 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
+  -- LSP Saga
+  buf_set_keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>', opts)
+  buf_set_keymap('n', 'gh', '<cmd>Lspsaga lsp_finder<cr>', opts)
+  buf_set_keymap('n', '[e', '<cmd>Lspsaga diagnostic_jump_next<cr>', opts)
+  buf_set_keymap('n', ']e', '<cmd>Lspsaga diagnostic_jump_prev<cr>', opts)
+  buf_set_keymap('n', '<leader>act', '<cmd>Lspsaga code_action<cr>', opts)
+  buf_set_keymap('n', '<leader>act', '<cmd><C-U>Lspsaga range_code_action<cr>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>Lspsaga rename<cr>', opts)
+
   if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_command [[augroup Format]]
-    vim.api.nvim_command [[autocmd! * <buffer>]]
-    vim.api.nvim_command [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    vim.api.nvim_command [[augroup END]]
+    vim.cmd [[augroup Format]]
+    vim.cmd [[autocmd! * <buffer>]]
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
+    vim.cmd [[augroup END]]
   end
 
   require 'illuminate'.on_attach(client)
-  vim.api.nvim_command [[ hi def link LspReferenceText CursorLine ]]
-  vim.api.nvim_command [[ hi def link LspReferenceWrite CursorLine ]]
-  vim.api.nvim_command [[ hi def link LspReferenceRead CursorLine ]]
 end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -161,3 +167,5 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
    },
  }
 )
+
+

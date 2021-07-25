@@ -1,11 +1,9 @@
-require('plugins/lsp')
-require('plugins/treesitter')
-require('plugins/completion')
-require('plugins/lspsaga')
-require('plugins/telescope')
+vim.g.mapleader = ','
 
-local whichKey = require("which-key")
-whichKey.setup {}
+require('plugins')
+require('keymappings')
+require('settings')
+require("which-key").setup {}
 
 -- Highlight line numbers where diagnostic errors are detected
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
