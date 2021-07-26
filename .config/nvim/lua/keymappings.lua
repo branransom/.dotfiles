@@ -1,7 +1,7 @@
 local utils = require('utils')
 
 utils.map('n', '<leader>l', '<cmd>noh<CR>') -- Clear highlights
-utils.map('n', '<leader>q', '<cmd>q<CR>') -- Clear highlights
+utils.map('n', '<leader>q', '<cmd>q<CR>') -- Quit
 utils.map('v', '<leader>p', '"_dP') -- Paste from clipboard
 utils.map('n', '<leader>y', '"+y') -- Copy to clipboard
 utils.map('v', '<leader>y', '"+y') -- Copy to clipboard
