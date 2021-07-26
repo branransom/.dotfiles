@@ -43,6 +43,9 @@ return require('packer').startup(function()
   -- Hotkey helper
   use { 'folke/which-key.nvim' }
 
+  -- Fancy start window
+  use { 'mhinz/vim-startify' }
+
   -- Auto close parens, brackets, etc.
   use { 'jiangmiao/auto-pairs' }
 
@@ -66,8 +69,6 @@ return require('packer').startup(function()
 
   -- Markdown
   use { 'plasticboy/vim-markdown' }
-  use { "iamcco/markdown-preview.nvim", ft = "markdown", run = "cd app && yarn install" }
+  use { 'iamcco/markdown-preview.nvim', run = function() vim.fn['mkdp#util#install']() end, ft = {'markdown'} }
 
 end)
-
-

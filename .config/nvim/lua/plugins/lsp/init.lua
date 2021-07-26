@@ -1,4 +1,5 @@
 local nvim_lsp = require('lspconfig')
+require('lspsaga').init_lsp_saga()
 
 local format_async = function(err, _, result, _, bufnr)
     if err ~= nil or result == nil then return end
@@ -168,4 +169,8 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
  }
 )
 
-
+-- Highlight line numbers where diagnostic errors are detected
+vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "DiagnosticError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "DiagnosticWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "DiagnosticInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "DiagnosticHint"})
