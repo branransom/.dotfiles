@@ -12,14 +12,15 @@ vim.g.vim_markdown_folding_disabled = 1
 vim.g.nvim_tree_auto_close = 1
 
 utils.opt('b', 'expandtab', true)
-utils.opt('b', 'shiftwidth', indent)
 utils.opt('b', 'smartindent', true)
 utils.opt('b', 'autoindent', true)
+utils.opt('b', 'shiftwidth', indent)
 utils.opt('b', 'tabstop', indent)
 utils.opt('b', 'softtabstop', indent)
 
 utils.opt('w', 'number', true)
 utils.opt('w', 'relativenumber', true)
+utils.opt('w', 'scrolloff', 10)
 
 utils.opt('o', 'hidden', true)
 utils.opt('o', 'inccommand', 'nosplit')
@@ -40,6 +41,5 @@ utils.opt('o', 'history', 500)
 utils.opt('o', 'autoread', true)
 utils.opt('o', 'updatetime', 300)
 utils.opt('o', 'mouse', 'a')
-utils.opt('w', 'scrolloff', 10)
 utils.opt('o', 'cmdheight', 2)
 
