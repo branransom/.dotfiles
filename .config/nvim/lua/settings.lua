@@ -9,6 +9,7 @@ cmd('au TextYankPost * lua vim.highlight.on_yank {on_visual = false}')
 cmd('colorscheme gruvbox-material')
 vim.g.gruvbox_material_background = 'soft'
 vim.g.vim_markdown_folding_disabled = 1
+vim.g.nvim_tree_auto_open = 1
 vim.g.nvim_tree_auto_close = 1
 
 utils.opt('b', 'expandtab', true)
