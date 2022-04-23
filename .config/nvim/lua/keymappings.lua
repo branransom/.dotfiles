@@ -12,6 +12,7 @@ utils.map('n', '<C-J>', '<C-W><C-J>') -- TMUX Navigation
 utils.map('n', '<C-K>', '<C-W><C-K>') -- TMUX Navigation
 utils.map('n', '<C-L>', '<C-W><C-L>') -- TMUX Navigation
 utils.map('n', '<C-H>', '<C-W><C-H>') -- TMUX Navigation
+utils.map('n', '<leader>i', ':set invlist<cr>') -- Show invisible characters
 
 if vim.fn.exists(":NvimTreeToggle") then
   utils.map('n', '<C-n>', '<cmd>NvimTreeToggle<CR>')

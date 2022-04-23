@@ -1,172 +1,380 @@
-local nvim_lsp = require('lspconfig')
-require('lspsaga').init_lsp_saga()
+require "plugins.lsp.handlers"
+require "plugins.lsp.formatting"
+local lspconfig = require "lspconfig"
+local utils = require "utils"
+local M = {}
 
-local format_async = function(err, _, result, _, bufnr)
-    if err ~= nil or result == nil then return end
-    if not vim.api.nvim_buf_get_option(bufnr, "modified") then
-        local view = vim.fn.winsaveview()
-        vim.lsp.util.apply_text_edits(result, bufnr)
-        vim.fn.winrestview(view)
-        if bufnr == vim.api.nvim_get_current_buf() then
-            vim.cmd("noautocmd :update")
-        end
+vim.lsp.protocol.CompletionItemKind = {
+    Text = " [text]",
+    Method = " [method]",
+    Function = " [function]",
+    Constructor = " [constructor]",
+    Field = "ﰠ [field]",
+    Variable = " [variable]",
+    Class = " [class]",
+    Interface = " [interface]",
+    Module = " [module]",
+    Property = " [property]",
+    Unit = " [unit]",
+    Value = " [value]",
+    Enum = " [enum]",
+    Keyword = " [key]",
+    Snippet = "﬌ [snippet]",
+    Color = " [color]",
+    File = " [file]",
+    Reference = " [reference]",
+    Folder = " [folder]",
+    EnumMember = " [enum member]",
+    Constant = " [constant]",
+    Struct = " [struct]",
+    Event = "⌘ [event]",
+    Operator = " [operator]",
+    TypeParameter = " [type]",
+}
+
+M.symbol_kind_icons = {
+    Function = "",
+    Method = "",
+    Variable = "",
+    Constant = "",
+    Interface = "",
+    Field = "ﰠ",
+    Property = "",
+    Struct = "",
+    Enum = "",
+    Class = "",
+}
+
+M.symbol_kind_colors = {
+    Function = "green",
+    Method = "green",
+    Variable = "blue",
+    Constant = "red",
+    Interface = "cyan",
+    Field = "blue",
+    Property = "blue",
+    Struct = "cyan",
+    Enum = "yellow",
+    Class = "red",
+}
+
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+vim.fn.sign_define("DiagnosticSignError", { text = "", numhl = "DiagnosticError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = "", numhl = "DiagnosticWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "", numhl = "DiagnosticInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "", numhl = "DiagnosticHint" })
+
+local on_attach = function(client)
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd [[augroup Format]]
+        vim.cmd [[autocmd! * <buffer>]]
+        vim.cmd [[autocmd BufWritePost <buffer> lua require'plugins.lsp.formatting'.format()]]
+        vim.cmd [[augroup END]]
     end
-end
+    if client.resolved_capabilities.goto_definition then
+        utils.map("n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = true })
+    end
+    if client.resolved_capabilities.implementation then
+        utils.map("n", "<space>&", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = true })
+    end
+    if client.resolved_capabilities.hover then
+        utils.map("n", "<CR>", "<cmd>lua vim.lsp.buf.hover()<CR>", { buffer = true })
+    end
+    if client.resolved_capabilities.find_references then
+        utils.map(
+            "n",
+            "<Space>*",
+            ":lua require('lists').change_active('Quickfix')<CR>:lua vim.lsp.buf.references()<CR>",
+            { buffer = true }
+        )
+    end
+    if client.resolved_capabilities.rename then
+        utils.map("n", "<Space>rn", "<cmd>lua require'lsp.rename'.rename()<CR>", { silent = true, buffer = true })
+    end
+    if client.resolved_capabilities.signature_help then
+        utils.map("n", "<Space>s", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { silent = true, buffer = true })
+    end
 
-vim.lsp.handlers["textDocument/formatting"] = format_async
-
-_G.lsp_organize_imports = function()
-    local params = {
-        command = "_typescript.organizeImports",
-        arguments = {vim.api.nvim_buf_get_name(0)},
-        title = ""
+    require("lsp_signature").on_attach {
+        hint_enable = false,
+        hi_parameter = "QuickFixLine",
+        handler_opts = {
+            border = vim.g.floating_window_border,
+        },
     }
-    vim.lsp.buf.execute_command(params)
+
+    utils.map("n", "<Space><CR>", "<cmd>lua require'lsp.diagnostics'.line_diagnostics()<CR>", { buffer = true })
 end
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<leader>k', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-  -- LSP Saga
-  buf_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', opts)
-  buf_set_keymap('n', 'gh', ':Lspsaga lsp_finder<CR>', opts)
-  buf_set_keymap('n', '[e', ':Lspsaga diagnostic_jump_next<CR>', opts)
-  buf_set_keymap('n', ']e', ':Lspsaga diagnostic_jump_prev<CR>', opts)
-  buf_set_keymap('n', '<leader>act', ':Lspsaga code_action<CR>', opts)
-  buf_set_keymap('v', '<leader>act', ':<C-U>Lspsaga range_code_action<CR>', opts)
-  buf_set_keymap('n', '<leader>rn', ':Lspsaga rename<CR>', opts)
-
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd [[augroup Format]]
-    vim.cmd [[autocmd! * <buffer>]]
-    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]]
-    vim.cmd [[augroup END]]
-  end
-
-  require 'illuminate'.on_attach(client)
+function _G.activeLSP()
+    local servers = {}
+    for _, lsp in pairs(vim.lsp.get_active_clients()) do
+        table.insert(servers, { name = lsp.name, id = lsp.id })
+    end
+    _G.P(servers)
+end
+function _G.bufferActiveLSP()
+    local servers = {}
+    for _, lsp in pairs(vim.lsp.buf_get_clients()) do
+        table.insert(servers, { name = lsp.name, id = lsp.id })
+    end
+    _G.P(servers)
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "rust_analyzer", "tsserver" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
-nvim_lsp.tsserver.setup {
+-- https://github.com/golang/tools/tree/master/gopls
+lspconfig.gopls.setup {
+    capabilities = capabilities,
     on_attach = function(client)
         client.resolved_capabilities.document_formatting = false
         on_attach(client)
+    end,
+    settings = {
+        gopls = {
+            usePlaceholders = true,
+            analyses = {
+                nilness = true,
+                shadow = true,
+                unusedparams = true,
+                unusewrites = true,
+            },
+        },
+    },
+}
+
+-- https://github.com/palantir/python-language-server
+-- lspconfig.pylsp.setup {
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     settings = {
+--         pylsp = {
+--             plugins = {
+--                 pycodestyle = {
+--                     enabled = false,
+--                     ignore = {
+--                         "E501",
+--                     },
+--                 },
+--                 jedi_completion = {
+--                     include_params = true,
+--                 },
+--             },
+--         },
+--     },
+-- }
+
+lspconfig.pyright.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/theia-ide/typescript-language-server
+lspconfig.tsserver.setup {
+    capabilities = capabilities,
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        require("nvim-lsp-ts-utils").setup {}
+        on_attach(client)
+    end,
+}
+
+local function get_lua_runtime()
+    local result = {}
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+        local lua_path = path .. "/lua/"
+        if vim.fn.isdirectory(lua_path) then
+            result[lua_path] = true
+        end
     end
-}
+    result[vim.fn.expand "$VIMRUNTIME/lua"] = true
+    result[vim.fn.expand "~/dev/neovim/src/nvim/lua"] = true
 
-local filetypes = {
-    javascript = "eslint",
-    javascriptreact = "eslint",
-    typescript = "eslint",
-    typescriptreact = "eslint",
-}
-
-local linters = {
-    eslint = {
-      command = 'eslint_d',
-      rootPatterns = { '.git' },
-      debounce = 100,
-      args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
-      sourceName = 'eslint_d',
-      parseJson = {
-        errorsRoot = '[0].messages',
-        line = 'line',
-        column = 'column',
-        endLine = 'endLine',
-        endColumn = 'endColumn',
-        message = '[eslint] ${message} [${ruleId}]',
-        security = 'severity'
-      },
-      securities = {
-        [2] = 'error',
-        [1] = 'warning'
-      }
+    return result
+end
+lspconfig.sumneko_lua.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    cmd = { "lua-language-server" },
+    settings = {
+        Lua = {
+            runtime = {
+                version = "LuaJIT",
+                path = { "lua/?.lua", "lua/?/init.lua" },
+            },
+            completion = {
+                keywordSnippet = "Disable",
+            },
+            workspace = {
+                ignoreDir = "~/.config/nvim/backups",
+                maxPreload = 10000,
+                preloadFileSize = 10000,
+            },
+            diagnostics = {
+                enable = true,
+                globals = {
+                    -- Neovim
+                    "vim",
+                    -- Busted
+                    "describe",
+                    "it",
+                    "before_each",
+                    "after_each",
+                    "teardown",
+                    "pending",
+                    -- packer
+                    "use",
+                },
+                workspace = {
+                    library = get_lua_runtime(),
+                    maxPreload = 1000,
+                    preloadFileSize = 1000,
+                },
+            },
+        },
     },
 }
 
-local formatters = {
-    eslint_d = {
-      command = 'eslint_d',
-      args = { '--stdin', '--stdin-filename', '%filename', '--fix-to-stdout' },
-      rootPatterns = { '.git' },
+-- https://github.com/iamcco/vim-language-server
+lspconfig.vimls.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/vscode-langservers/vscode-json-languageserver
+lspconfig.jsonls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    cmd = { "json-languageserver", "--stdio" },
+    settings = {
+        json = {
+            -- Schemas https://www.schemastore.org
+            schemas = {
+                {
+                    fileMatch = { "package.json" },
+                    url = "https://json.schemastore.org/package.json",
+                },
+                {
+                    fileMatch = { "tsconfig*.json" },
+                    url = "https://json.schemastore.org/tsconfig.json",
+                },
+                {
+                    fileMatch = {
+                        ".prettierrc",
+                        ".prettierrc.json",
+                        "prettier.config.json",
+                    },
+                    url = "https://json.schemastore.org/prettierrc.json",
+                },
+                {
+                    fileMatch = { ".eslintrc", ".eslintrc.json" },
+                    url = "https://json.schemastore.org/eslintrc.json",
+                },
+                {
+                    fileMatch = { ".babelrc", ".babelrc.json", "babel.config.json" },
+                    url = "https://json.schemastore.org/babelrc.json",
+                },
+                {
+                    fileMatch = { "lerna.json" },
+                    url = "https://json.schemastore.org/lerna.json",
+                },
+                {
+                    fileMatch = {
+                        ".stylelintrc",
+                        ".stylelintrc.json",
+                        "stylelint.config.json",
+                    },
+                    url = "http://json.schemastore.org/stylelintrc.json",
+                },
+                {
+                    fileMatch = { "/.github/workflows/*" },
+                    url = "https://json.schemastore.org/github-workflow.json",
+                },
+            },
+        },
     },
-    prettier = {
-      command = 'prettier',
-      args = { '--stdin-filepath', '%filename' }
-    }
 }
 
-local formatFiletypes = {
-    css = 'prettier',
-    javascript = 'eslint_d',
-    javascriptreact = 'prettier',
-    json = 'prettier',
-    scss = 'prettier',
-    less = 'prettier',
-    typescript = 'eslint_d',
-    typescriptreact = 'prettier',
-    json = 'prettier',
-    markdown = 'prettier',
+-- https://github.com/redhat-developer/yaml-language-server
+lspconfig.yamlls.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/joe-re/sql-language-server
+lspconfig.sqlls.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/vscode-langservers/vscode-css-languageserver-bin
+lspconfig.cssls.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/vscode-langservers/vscode-html-languageserver-bin
+lspconfig.html.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/bash-lsp/bash-language-server
+lspconfig.bashls.setup { capabilities = capabilities, on_attach = on_attach }
+
+-- https://github.com/rcjsuen/dockerfile-language-server-nodejs
+lspconfig.dockerls.setup {
+    capabilities = capabilities,
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end,
 }
 
-nvim_lsp.diagnosticls.setup {
-  on_attach = on_attach,
-  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
-  init_options = {
-    linters = linters,
-    filetypes = filetypes,
-    formatters = formatters,
-    formatFiletypes = formatFiletypes
-  }
+-- https://github.com/hashicorp/terraform-ls
+lspconfig.terraformls.setup {
+    capabilities = capabilities,
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end,
+    cmd = { "terraform-ls", "serve" },
+    filetypes = { "tf" },
 }
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
- vim.lsp.diagnostic.on_publish_diagnostics, {
-   underline = false,
- }
-)
+local vint = require "efm/vint"
+local stylua = require "efm/stylua"
+local golint = require "efm/golint"
+local goimports = require "efm/goimports"
+local black = require "efm/black"
+local isort = require "efm/isort"
+local flake8 = require "efm/flake8"
+local mypy = require "efm/mypy"
+local prettier = require "efm/prettier"
+local eslint = require "efm/eslint"
+local shellcheck = require "efm/shellcheck"
+local shfmt = require "efm/shfmt"
+local terraform = require "efm/terraform"
+local misspell = require "efm/misspell"
+-- https://github.com/mattn/efm-langserver
+lspconfig.efm.setup {
+    capabilities = capabilities,
+    -- cmd = { "/usr/local/bin/efm-langserver" },
+    on_attach = on_attach,
+    init_options = { documentFormatting = true },
+    root_dir = vim.loop.cwd,
+    settings = {
+        rootMarkers = { ".git/" },
+        lintDebounce = 100,
+        languages = {
+            ["="] = { misspell },
+            vim = { vint },
+            lua = { stylua },
+            go = { golint, goimports },
+            python = { black, isort, flake8, mypy },
+            typescript = { prettier, eslint },
+            javascript = { prettier, eslint },
+            typescriptreact = { prettier, eslint },
+            javascriptreact = { prettier, eslint },
+            yaml = { prettier },
+            json = { prettier },
+            html = { prettier },
+            scss = { prettier },
+            css = { prettier },
+            markdown = { prettier },
+            sh = { shellcheck, shfmt },
+            terraform = { terraform },
+        },
+    },
+}
 
--- Highlight line numbers where diagnostic errors are detected
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "DiagnosticError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "DiagnosticWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "DiagnosticInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "DiagnosticHint"})
+lspconfig.clangd.setup {
+    capabilities = capabilities,
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end,
+}
+
+return M

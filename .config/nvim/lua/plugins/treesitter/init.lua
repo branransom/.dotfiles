@@ -1,18 +1,42 @@
 local treesitter = require('nvim-treesitter.configs')
 
 treesitter.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
+    ensure_installed = "maintained",
+    highlight = {
+        enable = true,
+        language_tree = true,
+        additional_vim_regex_highlighting = { "org" },
     },
-  },
+    indent = {
+        enable = true,
+    },
+    refactor = {
+        highlight_definitions = {
+            enable = true,
+        },
+    },
+    autotag = {
+        enable = true,
+    },
+    context_commentstring = {
+        enable = true,
+    },
+    textobjects = {
+        select = {
+            enable = true,
+            keymaps = {
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@comment.outer",
+                ["ic"] = "@comment.inner",
+            },
+        },
+    },
+    textsubjects = {
+        enable = true,
+        keymaps = {
+            ["<CR>"] = "textsubjects-smart",
+            [";"] = "textsubjects-container-outer",
+        },
+    },
 }
-
