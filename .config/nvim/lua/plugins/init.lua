@@ -4,6 +4,7 @@ require('plugins/lsp')
 require('plugins/treesitter')
 require('plugins/completion')
 require('plugins/telescope')
+require('plugins/jupyter')
 require('which-key').setup {}
 require'nvim-tree'.setup {
   auto_close = true,
@@ -35,7 +36,6 @@ return require('packer').startup(function()
       },
       config = function()
   	local cmp = require "cmp"
-  	local cmp_compare = require "cmp_compare"
   	cmp.setup {
   	    preselect = cmp.PreselectMode.None,
   	    completion = {
@@ -79,8 +79,6 @@ return require('packer').startup(function()
   		    cmp.config.compare.offset,
   		    cmp.config.compare.exact,
   		    cmp.config.compare.score,
-  		    require("cmp-under-comparator").under,
-  		    cmp_compare.kind,
   		    cmp.config.compare.sort_text,
   		    cmp.config.compare.length,
   		    cmp.config.compare.order,
@@ -130,10 +128,6 @@ return require('packer').startup(function()
   		    vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind]
   		    return vim_item
   		end,
-  	    },
-
-  	    documentation = {
-  		border = vim.g.floating_window_border_dark,
   	    },
 
   	    experimental = {

@@ -29,6 +29,12 @@ export KEYTIMEOUT=1
 
 export EDITOR='vim'
 
+# Start tmux automatically
+if [ -z "$TMUX" ]
+then
+    tmux attach -t TMUX || tmux new -s TMUX
+fi
+
 # History navigation
 bindkey '^P' up-history
 bindkey '^N' down-history
